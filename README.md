@@ -19,6 +19,6 @@
 - `Final Exam`
 
 
-####### Note:
+###### Note:
   - Currently progess: Thru Chatper(2) 
   - Date: 6/3/16
