@@ -1,15 +1,13 @@
-# MongoDB University:
+## MongoDB University
 
 <p align = "center">
 <img src = "http://cdn.rancher.com/wp-content/uploads/2016/01/26001728/mongodb-logo.png">
 </p>
 
-
-
-### Training Class: MongoDBFor Developers: M101P
+#### Training Class: MongoDBFor Developers: M101P
 - The objective of taking this course is to learn everything you need to know to get started building a MongoDB-based app. This course will go over basic installation, JSON, schema design, querying, insertion of data, indexing and working with the Python driver. We will also cover working in sharded and replicated environments. - Will be working with the `Pymongo` driver for the homeworks.  
 
-### Topics:
+#### Topics:
 
 - `Chapter 1`: Introduction & Overview - Overview, Design Goals, the Mongo Shell, JSON Intro, installing tools, overview of blog project. Bottle, Pymongo
 - `Chapter 2`: CRUD (Creating, Reading and Updating Data) - Mongo shell, query operators, update operators and a few commands
