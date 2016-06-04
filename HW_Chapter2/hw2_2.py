@@ -1,3 +1,5 @@
+'''Type the following in the terminal to load the grades.json file:
+mongoimport -d students -c grades < grades.json'''
 
 '''Write a program in the language of your choice that will remove the grade of type "homework" 
 with the lowest score for each student from the dataset in the handout. Since each document is 
@@ -18,20 +20,30 @@ def question_2():
 	grades = db.grades
 	
 	try:
-		cursor = grades.find({'type':'homework'},{'_id':0}).sort([('student_id',pymongo.ASCENDING),('score',pymongo.ASCENDING)]).limit(5)
+		doc = grades.find({'type':'homework'}).sort([('student_id',pymongo.ASCENDING),('score',pymongo.ASCENDING)])
 
 	except Exception as e:
 		print "Unexpected Error: ", type(e), e
 
-	previous_id = None
 	student_id = None
 
-	for doc in cursor:
-			student_id = doc['student_id']
-			if student_id != previous_id:
-				previous_id = student_id
-				print "Removing", doc
-				grades.remove({'student_id': doc['student_id']})
+	print "***** Deleting Minimum Score *****"
+	for item in doc:
+		try:
+			if item['student_id'] != student_id:
+				student_id = item['student_id']
+				print "Student: %s -- Score: %s" % (student_id, item['score'])
+				grades.remove({'_id': item['_id']})
+			except Exception as e:
+				print "Unexpected Error: ", type(e), e
+
+	'''To verify that you have completed this task correctly, provide the identity 
+	of the student with the highest average in the class with following query that 
+	uses the aggregation framework.'''
+
+	# "mongo shell:" - > db.grades.aggregate({'$group':{'_id':'$student_id','average':{'$avg':'$score'}}},{'$sort':{'average':-1}})
+
+	# Answer = student_id = 54
 
 def run():
 	question_2()

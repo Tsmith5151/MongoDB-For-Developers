@@ -1,3 +1,6 @@
+'''Type the following in the terminal to load the grades.json file:
+mongoimport -d students -c grades < grades.json'''
+
 '''Find all exam scores greater than or equal to 65, and sort those scores from lowest to highest.
 What is the student_id of the lowest exam score above 65?'''
 
@@ -27,7 +30,7 @@ def question_1():
 		print item
 
 def run():
-	question_2()
+	question_1()
 
 if __name__ == "__main__":
 	run()
