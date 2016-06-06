@@ -10,7 +10,7 @@
 ##### Question 2.1:
 In this problem, you will be using a collection of student scores that is similar to what we used in the lessons. Please download grades.json from the Download Handout link and import it into your local mongo database as follows: ```mongoimport -d students -c grades < grades.json```. The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800. This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
 
-``` python
+``` 
 db.grades.aggregate({'$group':{'_id':'$student_id', 'average':{'$avg':'$score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
 ```
 The answer should be 'student_id' 164 with an average of approximately 89.3. Now it's your turn to analyze the data set. Find all exam scores greater than or equal to 65, and sort those scores from lowest to highest. What is the student_id of the lowest exam score above 65? 
@@ -46,7 +46,7 @@ To verify that you have completed this task correctly, provide the identity of t
 db.grades.aggregate({'$group':{'_id':'$student_id','average':{$avg:'$score'}}},{'$sort':{'average':-1}},{'$limit':1})
 ```
 ##### Question 2.3:
-Access the `hw2_3_drump` folder. You will see three files at the highest level: blog.py, userDAO.py and sessionDAO.py. There is also a views directory which contains the templates for the project. The project roughly follows the model/view/controller paradigm. userDAO and sessionDAO.py comprise the model. blog.py is the controller. The templates comprise the view. If everything is working properly, you should be able to start the blog by typing: ``` python blog.py ```. If you go to http://localhost:8082 you should see a message, "this is a placeholder for the blog". Here are some URLs that must work when you are done.
+In the blog directory, you will see three files at the highest level: blog.py, userDAO.py and sessionDAO.py. There is also a views directory which contains the templates for the project. The project roughly follows the model/view/controller paradigm. userDAO and sessionDAO.py comprise the model. blog.py is the controller. The templates comprise the view. If everything is working properly, you should be able to start the blog by typing: ``` python blog.py ```. If you go to http://localhost:8082 you should see a message, "this is a placeholder for the blog". Here are some URLs that must work when you are done.
 
 ```
 http://localhost:8082/signup
@@ -60,3 +60,11 @@ When you login or sign-up, the blog will redirect to http://localhost:8082/welco
 - It should redirect you to the welcome page and say: welcome username, where username is the user you signed up with. Now
 - Go to http://localhost:8082/logout
 - Now login http://localhost:8082/login.
+
+##### Question 2.4:
+Access the `hw2_3_drump` directory. Which of the choices below is the title of a movie from the year 2013 that is rated PG-13 and won no awards? Query the video.movieDetails collection to find the answer.
+
+There is a dump of the video database included in the handouts for the "Creating Documents" lesson. Use that data set to answer this question. Loading in the dump file to Mongodb: in the terminal type: mongorestore --drop -d movies -c movieDetails movieDetails.bson
+
+##### Question 2.5:
+Continuing from Question 2.4, how many movies list "Sweden" second in the the list of countries?
