@@ -26,10 +26,9 @@ The answer should be student_id 164 with an average of approximately 89.3. Now i
 ##### Question 2.2:
 Write a program in the language of your choice that will remove the grade of type "homework" with the lowest score for each student from the dataset in the handout. Since each document is one grade, it should remove one document per student. This will use the same data set as the last problem, but if you don't have it, you can download and re-import.The dataset contains 4 scores each for 200 students. First, let's confirm your data is intact; the number of documents should be 800.
 
-db.grades.count()
-Hint/spoiler: If you select homework grade-documents, sort by student and then by score, you can iterate through and find the lowest score for each student by noticing a change in student id. As you notice that change of student_id, remove the document.
+``` db.grades.count() ```
 
-To confirm you are on the right track, here are some queries to run after you process the data and put it into the grades collection:
+Hint/spoiler: If you select homework grade-documents, sort by student and then by score, you can iterate through and find the lowest score for each student by noticing a change in student id. As you notice that change of student_id, remove the document. To confirm you are on the right track, here are some queries to run after you process the data and put it into the grades collection:
 Let us count the number of grades we have: the number of documents should be 800.
 
 ``` db.grades.count() ```
@@ -43,7 +42,7 @@ The correct result will be:
 ```
 Now let us sort the students by student_id, type, and score, and then see what the top five docs are:
 ```
-db.grades.find( { }, { 'student_id' : 1, 'type' : 1, 'score' : 1, '_id' : 0 } ).sort( { 'student_id' : 1, 'score' : 1, } ).limit( 5 )
+db.grades.find({},{'student_id':1,'type':1,'score':1,'_id':0}).sort({'student_id':1,'score': 1}).limit(5)
 ```
 The result set should be:
 ```
@@ -55,7 +54,7 @@ The result set should be:
 ```
 To verify that you have completed this task correctly, provide the identity of the student with the highest average in the class with following query that uses the aggregation framework. The answer will appear in the _id field of the resulting document.
 ```
-db.grades.aggregate( { '$group' : { '_id' : '$student_id', 'average' : { $avg : '$score' } } }, { '$sort' : { 'average' : -1 } }, {'$limit' : 1 } )
+db.grades.aggregate({'$group':{'_id':'$student_id','average':{$avg:'$score'}}},{'$sort':{'average':-1}},{'$limit':1})
 ```
 ##### Question 2.4:
 Access the `hw2_3_drump` folder. You will see three files at the highest level: blog.py, userDAO.py and sessionDAO.py. There is also a views directory which contains the templates for the project. The project roughly follows the model/view/controller paradigm. userDAO and sessionDAO.py comprise the model. blog.py is the controller. The templates comprise the view. If everything is working properly, you should be able to start the blog by typing:
