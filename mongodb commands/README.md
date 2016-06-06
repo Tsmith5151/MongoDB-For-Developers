@@ -11,9 +11,9 @@ The objective here is to go through the commands in the mongo shell to `Create`,
 
 #### Create
 - The two principle commands for creating documents we will look at is the `insertOne` and `insertMany` which creates a document in a collection and will create the collection if the collection does not already exist. So for example, if the database name is `videos`, you'll access this database by typing `use videos` and the collection name is `videos`
-```
-db.videos.insertOne({title:"Rocky",year:1968})
-```
+
+Query: ```db.videos.insertOne({title:"Rocky",year:1968})```
+
 If done correctly, you can type `db.movies.find({})` and the movie should appear in the movies collection with the `_id`, `title`, and `year` of the movie. To print the output in JSON format, you can do this: `db.movies.find({}).pretty()`. As mentioned earlier, that when inserting a document into a collection, the document must contain a `_id`. If one is not provided, mongodb will create a random unique id for the document or you can provide a custom identification by specifying the id value, for example : `_id:tt59448289`. You want to make sure also that if you have a custom id that all of the id's have the same form. Shown below is an example if you want to insert a batch of documents into the collection, you would use the `insertMany` command. Instead of passing a single document as the first argument, we pass an arrary of n-elements (each element is a separate document). Each document in the array will have a object ID assigned to them as well, if not specified.
 
 ```
@@ -34,19 +34,79 @@ A note here is that by default insertMany does an ordered insert, meaning that a
 db.movies.insertMany([{
                       title:"Star Trek II. The Wrath of Khan",
                       year: 1982,
-                      type: "movie
+                      type: "movie,
+                      rated: "PG-13"
                       },
                       {title: "Star Trek"
                       year: 2009
-                      type:"movie"}],ordered: false)
+                      type:"movie",
+                      rated:"PG-13"}],ordered: false)
 ```
+If you wanted to count the multiple documents that were uploaded in the collections, simply type: `db.movies.find({}).count(). Another example, say we wanted to find all the movies in 2003, and rated PG-13. The query would look like this:
 
-Expanding upon the `_id`, MongoDB creates unique ID if not specified and it is a 12-byte-hex string as shown below:
+Query: ```db.movies.find({year:2013,rated:"PG-13"}).pretty()```
+
+Expanding upon the `_id`, MongoDB creates unique ID if not specified by default as an ObjectID, this is a value type defined in the BSON spec and is structured as 12-byte-hex string (shown below):
                         
-                        ``` _ _"A" _ _ | _ _ _ | _ _ | _ _ _ ```
+                        ``` _ _"A" _ _ | _ "B"_ _ | _"C" _ | _"D" _ _ ```
                          - Note: description of the "A", "B", "C", and "D" blocks don't actually appear in the `_id` value, but for the sake of explaining the blocks, the letter are used as references
                          - A: Timestamp (4)
-                         - B: Address where the MongoDB sserver is running - Machine Identifier (3)
+                         - B: Address where the MongoDB server is running - Machine Identifier (3)
                          - Process ID (2)
                          - Counter; random number generator (3)
                          - Total 12 bytes
+
+#### Reading
+In the previous section, we looked at basic queries for scalar fields, here we will match for equality against embedded documents, arrays, and other nested structures. Shown below is an example where a nested array is now part of the document. The goal here is now is to do an equality match for the documents that has a tomator meter of 99.
+
+```
+    },
+    "tomato" : {
+        "meter" : 99,
+        "image" : "certified",
+        "rating" : 8.9,
+        "reviews" : 287,
+        "fresh" : 283,
+        "consensus" : "Deftly blending comedy, adventure, and honest emotion, Toy Story 3 is a rare second sequel that really works.",
+        "userMeter" : 89,
+        "userRating" : 4.3,
+        "userReviews" : 602138
+    },
+    ```
+Note the tomato field stores a nested document with a number of fields (i.e. meter) - the keys must be enclosed in quotes using the dot notation. To sum up, to drive down the hierarchy of nested documents, you reach into documents at each additional level of nesting by strining field names together using dot notation as shown below. 
+
+Query: ```db.moves.find({"tomato.meter":99}).pretty()```
+
+###### Eqaulity matches on Arrarys:
+- On the entire arrary
+- Based on any element
+- Based on a specific element (say matching only arrarys who's first element matches specific criteria)
+
+The example here is to identify documents with exact matches to an array of one or more values. Again, the document now contains an array field of writers in the document.
+
+```
+    "writers" : [
+        "John Lasseter",
+        "Andrew Stanton",
+    ],
+```
+Keep in mind that order 0f the elements matters and that only the documents with the specified order in the array will be returned. The query will look like this:
+
+Query = ```db.movies.find({writers: ["John Lasseter", "Andrew Stanton"]})```
+
+Note: If you don't want an exact match, then you wouldn't enclose the value you are looking for in brackets. Here if you wanted to return all the documents that contain John Lasseter in the writers array you would do this:
+
+Query: ```db.movies.find({writers: "John Lasseter"})```
+
+This example we will look at matching array elements occurring in a specific position in an array. Adding on to the previous document, we now have a field with an array of actors. The first entry is typically the main actor, so we want to find all of the movies where Tom Hanks is the main actor (i.e. first element in the array):
+
+```
+    "actors" : [
+        "Tom Hanks",
+        "Tim Allen",
+        "Joan Cusack",
+        "Ned Beatty"
+    ],
+```
+Query: ```db.movies.find({actors.1:"Tom Hanks"})```
+
