@@ -29,6 +29,7 @@ db.movies.insertMany([{
 ```
 A note here is that by default insertMany does an ordered insert, meaning that as soon as an error is encountered, it will stop inserting documents. An example of this is if you are customizing the `_id` value, you may have an instance where duplicate documents exists. But we may want keep going and insert the rest of the documents even though an error was raised. Adding a second argument `ordered:false` to the insertMany command, meaning that mongodb will run an unordered insertMany command - if an error is encountered, it will keep inserting the remaining documents. 
 
+```
 #insert many:
 db.movies.insertMany([{
                       title:"Star Trek II. The Wrath of Khan",
@@ -38,3 +39,4 @@ db.movies.insertMany([{
                       {title: "Star Trek"
                       year: 2009
                       type:"movie"}],ordered: false)
+```
