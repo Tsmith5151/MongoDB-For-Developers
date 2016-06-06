@@ -8,11 +8,7 @@
 #### Homework Questions:
 
 ##### Question 2.1:
-In this problem, you will be using a collection of student scores that is similar to what we used in the lessons. Please download grades.json from the Download Handout link and import it into your local mongo database as follows:
-
-```mongoimport -d students -c grades < grades.json```
-
-The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800. ```usestudentsdb.grades.count()`` - You should get 800. This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
+In this problem, you will be using a collection of student scores that is similar to what we used in the lessons. Please download grades.json from the Download Handout link and import it into your local mongo database as follows: ```mongoimport -d students -c grades < grades.json```. The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800. ```usestudentsdb.grades.count()`` - You should get 800. This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
 
 ``` python
 db.grades.aggregate({'$group':{'_id':'$student_id', 'average':{'$avg':'$score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
@@ -28,11 +24,8 @@ Hint/spoiler: If you select homework grade-documents, sort by student and then b
 Let us count the number of grades we have: the number of documents should be 800.
 
 ``` db.grades.count() ```
-
 The result should be 600. Now let us find the student who holds the 101st best grade across all grades:
-
 ``` db.grades.find().sort( { 'score' : -1 } ).skip( 100 ).limit( 1 ) ```
-
 The correct result will be:
 ```
 { "_id" : ObjectId("50906d7fa3c412bb040eb709"), "student_id" : 100, "type" : "homework", "score" : 88.50425479139126 }
