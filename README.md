@@ -2,21 +2,23 @@
 <p align = "center">
 <img src = "http://cdn.rancher.com/wp-content/uploads/2016/01/26001728/mongodb-logo.png">
 </p>
-#### MongoDBFor Developers: M101P
+#### MongoDBFor Developers: M101P - Chapter 2 Homework
 - The objective of taking this course is to learn everything you need to know to get started building a MongoDB-based app. This course will go over basic installation, JSON, schema design, querying, insertion of data, indexing and working with the Python driver. We will also cover working in sharded and replicated environments. - Will be working with the `Pymongo` driver for the homeworks.  
 
-#### Topics:
+#### Homework Questions:
 
-- `Chapter 1`: Introduction & Overview - Overview, Design Goals, the Mongo Shell, JSON Intro, installing tools, overview of blog project. Bottle, Pymongo
-- `Chapter 2`: CRUD (Creating, Reading and Updating Data) - Mongo shell, query operators, update operators and a few commands
-- `Chapter 3`: Schema Design - Patterns, case studies and tradeoffs
-- `Chapter 4`: Using indexes, monitoring and understanding performance. Performance in sharded environments.
-- `Chapter 5`: Goals, the use of the pipeline, comparison with SQL facilities.
-- `Chapter 6`: Drivers, impact of replication and Sharding on design and development
-- `Chapter 7`: Interview with Charity Majors, Parse and interview with Ryan Bubinski, Codecademy
-- `Final Exam`
+- 2.1: In this problem, you will be using a collection of student scores that is similar to what we used in the lessons. Please download grades.json from the Download Handout link and import it into your local mongo database as follows:
 
+```mongoimport -d students -c grades < grades.json```
 
-###### Note:
-  - Currently progess: Thru Chatper(2) 
-  - Date: 6/3/16
+The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800.
+
+``usestudentsdb.grades.count()`` - You should get 800.
+
+This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
+
+``` python
+db.grades.aggregate({'$group':{'_id':'$student_id', 'average':{$avg:'$score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
+```
+
+The answer should be student_id 164 with an average of approximately 89.3. Now it's your turn to analyze the data set. Find all exam scores greater than or equal to 65, and sort those scores from lowest to highest. What is the student_id of the lowest exam score above 65? 
