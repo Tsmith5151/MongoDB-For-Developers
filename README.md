@@ -8,12 +8,12 @@
 #### Homework Questions:
 
 ##### Question 2.1:
-In this problem, you will be using a collection of student scores that is similar to what we used in the lessons. Please download grades.json from the Download Handout link and import it into your local mongo database as follows: ```mongoimport -d students -c grades < grades.json```. The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800. ```usestudentsdb.grades.count()`` - You should get 800. This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
+In this problem, you will be using a collection of student scores that is similar to what we used in the lessons. Please download grades.json from the Download Handout link and import it into your local mongo database as follows: ```mongoimport -d students -c grades < grades.json```. The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800. This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
 
 ``` python
 db.grades.aggregate({'$group':{'_id':'$student_id', 'average':{'$avg':'$score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
 ```
-The answer should be student_id 164 with an average of approximately 89.3. Now it's your turn to analyze the data set. Find all exam scores greater than or equal to 65, and sort those scores from lowest to highest. What is the student_id of the lowest exam score above 65? 
+The answer should be 'student_id' 164 with an average of approximately 89.3. Now it's your turn to analyze the data set. Find all exam scores greater than or equal to 65, and sort those scores from lowest to highest. What is the student_id of the lowest exam score above 65? 
 
 ##### Question 2.2:
 Write a program in the language of your choice that will remove the grade of type "homework" with the lowest score for each student from the dataset in the handout. Since each document is one grade, it should remove one document per student. This will use the same data set as the last problem, but if you don't have it, you can download and re-import.The dataset contains 4 scores each for 200 students. First, let's confirm your data is intact; the number of documents should be 800.
@@ -46,7 +46,7 @@ To verify that you have completed this task correctly, provide the identity of t
 ```
 db.grades.aggregate({'$group':{'_id':'$student_id','average':{$avg:'$score'}}},{'$sort':{'average':-1}},{'$limit':1})
 ```
-##### Question 2.4:
+##### Question 2.3:
 Access the `hw2_3_drump` folder. You will see three files at the highest level: blog.py, userDAO.py and sessionDAO.py. There is also a views directory which contains the templates for the project. The project roughly follows the model/view/controller paradigm. userDAO and sessionDAO.py comprise the model. blog.py is the controller. The templates comprise the view. If everything is working properly, you should be able to start the blog by typing: ``` python blog.py ```. If you go to http://localhost:8082 you should see a message, "this is a placeholder for the blog". Here are some URLs that must work when you are done.
 
 ```
