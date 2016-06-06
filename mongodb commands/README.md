@@ -40,3 +40,13 @@ db.movies.insertMany([{
                       year: 2009
                       type:"movie"}],ordered: false)
 ```
+
+Expanding upon the `_id`, MongoDB creates unique ID if not specified and it is a 12-byte-hex string as shown below:
+                        
+                        ``` _ _"A" _ _ | _ _ _ | _ _ | _ _ _ ```
+                         - Note: description of the "A", "B", "C", and "D" blocks don't actually appear in the `_id` value, but for the sake of explaining the blocks, the letter are used as references
+                         - A: Timestamp (4)
+                         - B: Address where the MongoDB sserver is running - Machine Identifier (3)
+                         - Process ID (2)
+                         - Counter; random number generator (3)
+                         - Total 12 bytes
