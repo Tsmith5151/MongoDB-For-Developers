@@ -107,4 +107,14 @@ This example we will look at matching array elements occurring in a specific pos
 ```
 Query: ```db.movies.find({actors.1:"Tom Hanks"})```
 
+###### Cursors and Projection:
+- Cursors: the find method returns cursors and to access these documents you need to iterate through the cursors. In the Mongo shell, if we don't assign the return value from "find" to a variable using the keyword `var` the cursor is automatically iterated up to 20 times to print an initial set of search results. In general, the MongoDB server returns the query results in batches; the batch size will not exceed the maximum BSON document size and for most queries. For most queries, the first batch returns 101 documents or just enouch documents to exceed 1 MB. (note: it is possible to override the default batch size). So as we iterate through the cursor and reach the end of the return batch, if there is more results `cursor.next` will perform a get more operation to retrieve the next batch. Typing `it` in the command line will iterate through the batches. If you want to see how many documents are remaining in the batch, first you will need to assign the query to a variable: `var c = db.movies.find({});` then  `c.objectLetInBatch()`.
 
+- Projection: handy way of reducing the size of the returned for any one query. By default, MongoDB returns all fields in all matching documents for queries. Projections reduce network overhead and processing requirements by limiting the fields returned in the document. 
+Example, if we wanted to just return the all of the movie titles:
+
+``` db.movies.find({},{title:1}) ```
+
+Note that `_id` is always returned by default. We can exclude this by the following:
+
+```db.movies.find({},{title:1, _id, 0})```
