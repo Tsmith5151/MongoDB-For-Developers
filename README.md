@@ -57,11 +57,11 @@ http://localhost:8082/logout
 ```
 When you login or sign-up, the blog will redirect to http://localhost:8082/welcome and that must work properly, welcoming the user by username. We have removed two pymongo statements from userDAO.py and marked the area where you need to work with XXX. You should not need to touch any other code. The pymongo statements that you are going to add will add a new user to the database upon sign-up, and validate a login by retrieving the right user document. The blog stores its data in the blog database in two collections, users and sessions. Once you have the the project working, the following steps should work:
 
-- go to http://localhost:8082/signup
+- go to `http://localhost:8082/signup`
 - Create a user
 - It should redirect you to the welcome page and say: welcome username, where username is the user you signed up with. Now
-- Go to http://localhost:8082/logout
-- Now login http://localhost:8082/login.
+- Go to `http://localhost:8082/logout`
+- Now login `http://localhost:8082/login`
 
 ##### Question 2.4:
 Access the `hw2_3_drump` directory. Which of the choices below is the title of a movie from the year 2013 that is rated PG-13 and won no awards? Query the video.movieDetails collection to find the answer.
