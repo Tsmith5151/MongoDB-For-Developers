@@ -24,7 +24,9 @@ Hint/spoiler: If you select homework grade-documents, sort by student and then b
 
 Let us count the number of grades we have: the number of documents should be 800. ``` db.grades.count() ```
 The result should be 600. Now let us find the student who holds the 101st best grade across all grades:
+
 ``` db.grades.find().sort( { 'score' : -1 } ).skip( 100 ).limit( 1 ) ```
+
 The correct result will be:
 ```
 { "_id" : ObjectId("50906d7fa3c412bb040eb709"), "student_id" : 100, "type" : "homework", "score" : 88.50425479139126 }
