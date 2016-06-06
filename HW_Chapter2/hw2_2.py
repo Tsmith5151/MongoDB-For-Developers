@@ -34,8 +34,8 @@ def question_2():
 				student_id = item['student_id']
 				print "Student: %s -- Score: %s" % (student_id, item['score'])
 				grades.remove({'_id': item['_id']})
-			except Exception as e:
-				print "Unexpected Error: ", type(e), e
+		except Exception as e:
+			print "Unexpected Error: ", type(e), e
 
 	'''To verify that you have completed this task correctly, provide the identity 
 	of the student with the highest average in the class with following query that 
