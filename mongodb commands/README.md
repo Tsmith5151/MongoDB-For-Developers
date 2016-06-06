@@ -46,15 +46,12 @@ If you wanted to count the multiple documents that were uploaded in the collecti
 
 Query: ```db.movies.find({year:2013,rated:"PG-13"}).pretty()```
 
-Expanding upon the `_id`, MongoDB creates unique ID if not specified by default as an ObjectID, this is a value type defined in the BSON spec and is structured as 12-byte-hex string (shown below):
-                        
-                        ``` _ _"A" _ _ | _ "B"_ _ | _"C" _ | _"D" _ _ ```
-                         - Note: description of the "A", "B", "C", and "D" blocks don't actually appear in the `_id` value, but for the sake of explaining the blocks, the letter are used as references
-                         - A: Timestamp (4)
-                         - B: Address where the MongoDB server is running - Machine Identifier (3)
-                         - Process ID (2)
-                         - Counter; random number generator (3)
-                         - Total 12 bytes
+Expanding upon the `_id`, MongoDB creates unique ID if not specified by default as an ObjectID, this is a value type defined in the BSON spec and is structured as 12-byte-hex string: ``` _ _"A" _ _ | _ "B"_ _ | _"C" _ | _"D" _ _ ``` Note: description of the "A", "B", "C", and "D" blocks don't actually appear in the `_id` value, but for the sake of explaining the blocks, the letter are used as references
+- A: Timestamp (4)
+- B: Address where the MongoDB server is running - Machine Identifier (3)
+- C: Process ID (2)
+- D: Counter; random number generator (3)
+- Total 12 bytes
 
 #### Reading
 In the previous section, we looked at basic queries for scalar fields, here we will match for equality against embedded documents, arrays, and other nested structures. Shown below is an example where a nested array is now part of the document. The goal here is now is to do an equality match for the documents that has a tomator meter of 99.
@@ -72,7 +69,7 @@ In the previous section, we looked at basic queries for scalar fields, here we w
         "userRating" : 4.3,
         "userReviews" : 602138
     },
-    ```
+```
 Note the tomato field stores a nested document with a number of fields (i.e. meter) - the keys must be enclosed in quotes using the dot notation. To sum up, to drive down the hierarchy of nested documents, you reach into documents at each additional level of nesting by strining field names together using dot notation as shown below. 
 
 Query: ```db.moves.find({"tomato.meter":99}).pretty()```
@@ -88,7 +85,7 @@ The example here is to identify documents with exact matches to an array of one 
     "writers" : [
         "John Lasseter",
         "Andrew Stanton",
-    ],
+    ]
 ```
 Keep in mind that order 0f the elements matters and that only the documents with the specified order in the array will be returned. The query will look like this:
 
@@ -106,7 +103,8 @@ This example we will look at matching array elements occurring in a specific pos
         "Tim Allen",
         "Joan Cusack",
         "Ned Beatty"
-    ],
+    ]
 ```
 Query: ```db.movies.find({actors.1:"Tom Hanks"})```
+
 
