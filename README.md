@@ -12,11 +12,7 @@ In this problem, you will be using a collection of student scores that is simila
 
 ```mongoimport -d students -c grades < grades.json```
 
-The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800.
-
-``usestudentsdb.grades.count()`` - You should get 800.
-
-This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
+The dataset contains 4 scores for 200 students. First, let's confirm your data is intact; the number of documents should be 800. ```usestudentsdb.grades.count()`` - You should get 800. This next query, which uses the aggregation framework that we have not taught yet, will tell you the student_id with the highest average score:
 
 ``` python
 db.grades.aggregate({'$group':{'_id':'$student_id', 'average':{'$avg':'$score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
@@ -36,6 +32,7 @@ Let us count the number of grades we have: the number of documents should be 800
 The result should be 600. Now let us find the student who holds the 101st best grade across all grades:
 
 ``` db.grades.find().sort( { 'score' : -1 } ).skip( 100 ).limit( 1 ) ```
+
 The correct result will be:
 ```
 { "_id" : ObjectId("50906d7fa3c412bb040eb709"), "student_id" : 100, "type" : "homework", "score" : 88.50425479139126 }
@@ -57,22 +54,14 @@ To verify that you have completed this task correctly, provide the identity of t
 db.grades.aggregate({'$group':{'_id':'$student_id','average':{$avg:'$score'}}},{'$sort':{'average':-1}},{'$limit':1})
 ```
 ##### Question 2.4:
-Access the `hw2_3_drump` folder. You will see three files at the highest level: blog.py, userDAO.py and sessionDAO.py. There is also a views directory which contains the templates for the project. The project roughly follows the model/view/controller paradigm. userDAO and sessionDAO.py comprise the model. blog.py is the controller. The templates comprise the view. If everything is working properly, you should be able to start the blog by typing:
-
-``` python blog.py ```
-
-If you go to http://localhost:8082 you should see a message, "this is a placeholder for the blog". Here are some URLs that must work when you are done.
+Access the `hw2_3_drump` folder. You will see three files at the highest level: blog.py, userDAO.py and sessionDAO.py. There is also a views directory which contains the templates for the project. The project roughly follows the model/view/controller paradigm. userDAO and sessionDAO.py comprise the model. blog.py is the controller. The templates comprise the view. If everything is working properly, you should be able to start the blog by typing: ``` python blog.py ```. If you go to http://localhost:8082 you should see a message, "this is a placeholder for the blog". Here are some URLs that must work when you are done.
 
 ```
 http://localhost:8082/signup
 http://localhost:8082/login
 http://localhost:8082/logout
 ```
-When you login or sign-up, the blog will redirect to http://localhost:8082/welcome and that must work properly, welcoming the user by username
-
-We have removed two pymongo statements from userDAO.py and marked the area where you need to work with XXX. You should not need to touch any other code. The pymongo statements that you are going to add will add a new user to the database upon sign-up, and validate a login by retrieving the right user document. The blog stores its data in the blog database in two collections, users and sessions.
-
-Once you have the the project working, the following steps should work:
+When you login or sign-up, the blog will redirect to http://localhost:8082/welcome and that must work properly, welcoming the user by username. We have removed two pymongo statements from userDAO.py and marked the area where you need to work with XXX. You should not need to touch any other code. The pymongo statements that you are going to add will add a new user to the database upon sign-up, and validate a login by retrieving the right user document. The blog stores its data in the blog database in two collections, users and sessions. Once you have the the project working, the following steps should work:
 
 - go to http://localhost:8082/signup
 - Create a user
