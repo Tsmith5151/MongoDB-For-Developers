@@ -21,9 +21,8 @@ Write a program in the language of your choice that will remove the grade of typ
 ``` db.grades.count() ```
 
 Hint/spoiler: If you select homework grade-documents, sort by student and then by score, you can iterate through and find the lowest score for each student by noticing a change in student id. As you notice that change of student_id, remove the document. To confirm you are on the right track, here are some queries to run after you process the data and put it into the grades collection:
-Let us count the number of grades we have: the number of documents should be 800.
 
-``` db.grades.count() ```
+Let us count the number of grades we have: the number of documents should be 800. ``` db.grades.count() ```
 The result should be 600. Now let us find the student who holds the 101st best grade across all grades:
 ``` db.grades.find().sort( { 'score' : -1 } ).skip( 100 ).limit( 1 ) ```
 The correct result will be:
