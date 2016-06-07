@@ -16,7 +16,7 @@ Query: ```db.videos.insertOne({title:"Rocky",year:1968})```
 
 - If done correctly, you can type `db.movies.find({})` and the movie should appear in the movies collection with the `_id`, `title`, and `year` of the movie. To print the output in JSON format, you can do this: `db.movies.find({}).pretty()`. As mentioned earlier, that when inserting a document into a collection, the document must contain a `_id`. If one is not provided, mongodb will create a random unique id for the document or you can provide a custom identification by specifying the id value, for example : `_id:tt59448289`. You want to make sure also that if you have a custom id that all of the id's have the same form. Shown below is an example if you want to insert a batch of documents into the collection, you would use the `insertMany` command. Instead of passing a single document as the first argument, we pass an arrary of n-elements (each element is a separate document). Each document in the array will have a object ID assigned to them as well, if not specified.
 
-```
+```python 
 #insertMany:
 db.movies.insertMany([{
                       title:"Star Trek II. The Wrath of Khan",
@@ -29,7 +29,7 @@ db.movies.insertMany([{
 ```
 - A note here is that by default insertMany does an ordered insert, meaning that as soon as an error is encountered, it will stop inserting documents. An example of this is if you are customizing the `_id` value, you may have an instance where duplicate documents exists. But we may want keep going and insert the rest of the documents even though an error was raised. Adding a second argument `ordered:false` to the insertMany command, meaning that mongodb will run an unordered insertMany command - if an error is encountered, it will keep inserting the remaining documents. 
 
-```
+```python
 #insert many:
 db.movies.insertMany([{
                       title:"Star Trek II. The Wrath of Khan",
@@ -58,8 +58,7 @@ db.movies.insertMany([{
 #### Reading
 - In the previous section, we looked at basic queries for scalar fields, here we will match for equality against embedded documents, arrays, and other nested structures. Shown below is an example where a nested array is now part of the document. The goal here is now is to do an equality match for the documents that has a tomator meter of 99.
 
-```
-    },
+```python
     "tomato" : {
         "meter" : 99,
         "image" : "certified",
@@ -85,7 +84,7 @@ db.moves.find({"tomato.meter":99}).pretty()
 
 The example here is to identify documents with exact matches to an array of one or more values. Again, the document now contains an array field of writers in the document.
 
-```
+```python 
     "writers" : [
         "John Lasseter",
         "Andrew Stanton",
@@ -105,7 +104,7 @@ db.movies.find({writers: "John Lasseter"})
 
 This example we will look at matching array elements occurring in a specific position in an array. Adding on to the previous document, we now have a field with an array of actors. The first entry is typically the main actor, so we want to find all of the movies where Tom Hanks is the main actor (i.e. first element in the array):
 
-```
+```python
     "actors" : [
         "Tom Hanks",
         "Tim Allen",
@@ -214,4 +213,40 @@ db.moves.find({"awards.text":{$regex: /^Won\s.*/}}).pretty()
 ```
 - Note, the // delimit the regular expression, the ^ means start at the beginning of whatever value we're matching against and match exactly a capital W, lowercase o, lowercase n. The * means to match any character any number of times and \s is the space character. So basically what this query is saying is give me all documents where the awards.text field begins with the word Won. 
 
-###### Regular Expressions:
+###### Array Operators:
+-$all : matches arrays that contain ALL elements specified in the query 
+-$elemMatch : selects documents if element in the array field matches all the specified $elemMatch conditions
+-$size : selects documents if the array field is a specified size
+
+- In this example, the genres is added to the documents in the movies collection to illustrate using array operators.
+
+```python
+    "genres" : [
+        "Animation",
+        "Adventure",
+        "Comedy"
+    ],
+    ```
+
+```python
+#Return all movies with the genres Comedy, Crime, and Data
+db.moves.find({genres: {$all: ["Comedy","Crime","Data"]}}).pretty()
+```
+
+```python
+#Using $size to match all documents based on the length of an array
+#Query: find all movies filmed in the country of origin (i.e. filmed in one country)
+db.moves.find({countries: {$size: 1}}).pretty()
+```
+- Now lets add in the following array with embedded documents:
+
+```python
+boxOffice :[{"country":"United States", "revenue": 19.5},
+            {"country":"United Kingdom", "revenue": 22.5}]
+```
+```python
+#Using $elemMatch to find all of the movies filmed in the U.S. with a revenue greater than 15 million
+#Note elemMatch is used when you have an array with embedded documents shown above.
+db.moves.find({boxOffice: {$elemMatch: { country: "USA", revenue: {$gte:15}}}}).pretty()
+```
+- The above query, elemMatch requires that all criteria be satisfied within a single element of an array field (i.e. both criteria should be met within a single element of the box office).
