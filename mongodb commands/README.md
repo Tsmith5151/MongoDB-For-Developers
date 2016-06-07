@@ -85,7 +85,7 @@ db.moves.find({"tomato.meter":99}).pretty()
 - Based on any element
 - Based on a specific element (say matching only arrarys who's first element matches specific criteria)
 
-The example here is to identify documents with exact matches to an array of one or more values. Again, the document now contains an array field of writers in the document.
+- The example here is to identify documents with exact matches to an array of one or more values. Again, the document now contains an array field of writers in the document.
 
 ```python 
     "writers" : [
@@ -93,19 +93,19 @@ The example here is to identify documents with exact matches to an array of one 
         "Andrew Stanton",
     ]
 ```
-Keep in mind that order 0f the elements matters and that only the documents with the specified order in the array will be returned. The query will look like this:
+- Keep in mind that order 0f the elements matters and that only the documents with the specified order in the array will be returned. The query will look like this:
 
 ```python
 db.movies.find({writers: ["John Lasseter", "Andrew Stanton"]})
 ```
 
-Note: If you don't want an exact match, then you wouldn't enclose the value you are looking for in brackets. Here if you wanted to return all the documents that contain John Lasseter in the writers array you would do this:
+- Note: If you don't want an exact match, then you wouldn't enclose the value you are looking for in brackets. Here if you wanted to return all the documents that contain John Lasseter in the writers array you would do this:
 
 ```python
 db.movies.find({writers: "John Lasseter"})
 ```
 
-This example we will look at matching array elements occurring in a specific position in an array. Adding on to the previous document, we now have a field with an array of actors. The first entry is typically the main actor, so we want to find all of the movies where Tom Hanks is the main actor (i.e. first element in the array):
+- This example we will look at matching array elements occurring in a specific position in an array. Adding on to the previous document, we now have a field with an array of actors. The first entry is typically the main actor, so we want to find all of the movies where Tom Hanks is the main actor (i.e. first element in the array):
 
 ```python
     "actors" : [
@@ -210,7 +210,7 @@ db.moves.find({$and:[{metacritic:{$ne: null}},{metacritic"{$exists:true}}]}).pre
         "text" : "Won 2 Oscars. Another 56 wins & 86 nominations."
     }
   ```
-```python
+```
 #An example where you would want to use the "and" logical query operator
 db.moves.find({"awards.text":{$regex: /^Won\s.*/}}).pretty()
 ```
@@ -229,9 +229,9 @@ db.moves.find({"awards.text":{$regex: /^Won\s.*/}}).pretty()
         "Adventure",
         "Comedy"
     ],
-    ```
+```
 
-```python
+```
 #Return all movies with the genres Comedy, Crime, and Data
 db.moves.find({genres: {$all: ["Comedy","Crime","Data"]}}).pretty()
 ```
@@ -247,7 +247,7 @@ db.moves.find({countries: {$size: 1}}).pretty()
 boxOffice :[{"country":"United States", "revenue": 19.5},
             {"country":"United Kingdom", "revenue": 22.5}]
 ```
-```python
+```
 #Using $elemMatch to find all of the movies filmed in the U.S. with a revenue greater than 15 million
 #Note elemMatch is used when you have an array with embedded documents shown above.
 db.moves.find({boxOffice: {$elemMatch: { country: "USA", revenue: {$gte:15}}}}).pretty()
