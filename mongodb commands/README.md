@@ -3,7 +3,7 @@
 <img src = "http://cdn.rancher.com/wp-content/uploads/2016/01/26001728/mongodb-logo.png">
 </p>
 #### C.R.U.D. Operations in Mongodb
-- The objective here is to go through the commands in the mongo shell to `Create`,`Read`,`Update` and `Delete` documents. 
+- The objective here is to go through the commands in the mongo shell to `Create`,`Read`,`Update` and `Delete` documents. The MongoDB documents can be found [`here`](https://docs.mongodb.com) 
 
 #### Basic Commands to Access the Database:
   
