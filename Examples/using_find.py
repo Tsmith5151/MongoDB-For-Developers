@@ -1,4 +1,5 @@
 #Examples of using find to query documents in a collection
+
 import pymongo
 import sys #For the Exception handle
 import datetime

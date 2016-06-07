@@ -1,4 +1,5 @@
 #Scrape the data from the reddit homepage as JSON file and then import into MongoDB
+
 import pymongo
 import urllib2
 import json
