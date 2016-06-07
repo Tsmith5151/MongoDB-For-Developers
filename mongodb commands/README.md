@@ -139,17 +139,18 @@ db.movies.find({},{title:1, _id, 0})
 ###### Query Operators:
 - Comparison Operators: match on the basis of a field's value relative to some other value. In this example, a scalar field `runtime` is added to the doucment. In the mongo shell, you can use operators such as $eq, $gte, $gt, $lte, $lt, $in, $ne (search the mongo docs for a complete list of comparison operators). When using these operators, you are not limited to just a single field. 
 
-```python
+```
 #Query for runtime greater than or equal to 100 and less than 130 minutes
 db.movies.find({'tomato.meter': 95, runtime: {$gte: 100, $lt: 130}},{title:1, _id:0}).pretty()
 ```
-```python
+
+```
 #Find all movies that have ratings ($ne = not equal to)
 db.movies.find({rating, {$ne : "UNRATED"}}).pretty()
 ```
 - Typically in MongoDB data models, rather than store a null value for a field, we will simply not store that field at all. 
 
-```python
+```
 #Query: Give me all the movies that have a rating of PG or PG-13 ($in must be an array)
 db.movies.find({rating : {$in : ["PG", PG-13"]}}).pretty()
 ```
@@ -159,11 +160,12 @@ db.movies.find({rating : {$in : ["PG", PG-13"]}}).pretty()
   - $ exist: matches documents that have the same specified field
   - $ type: selects documents if a field is of the specified type
 
-```python
+```
 #Example here is to find all the documents with a tomator.meter field (can change to false - shows movies that do not contain this field:
 db.movies.find({'tomator.meter':{$exists: true}})
 ```
-```python
+
+```
 #Count the number movies that have an _id value that is a string (this would be if you customized the _id such as _id: "ABCD"
 db.movies.find({_id:{$type:string}}).count()
 ```
@@ -174,22 +176,24 @@ db.movies.find({_id:{$type:string}}).count()
 - $nor: Joins query clauses with a logical NOR returns all documents that fail to match both clauses
 
 - In this example, `metacritic` scalar field is added to the documents; this is another source that provides movie ratings
-```python
+
+```
 #Find all movies with rating from either source that satisfies the following comparison operators
 db.moves.find({$or:{'tomato.meter':{$gte:95}},{metacritc:{$gte:90}}}).pretty()
 ```
-```python
+
+```
 #Find all movies with rating from both source that satisfies the following comparison operators
 db.moves.find({and:{'tomato.meter':{$gte:95}},{metacritc:{$gte:90}}}).pretty()
 ```
 - Note when using the and operator, the query above is equivalent to the query shown below. The reason is that criteria specified for this query document are implicitly $anded together. 
 
-```python
+```
 #Find all movies with rating from both source that satisfies the following comparison operators
 db.moves.find({'tomato.meter':{$gte:95},metacritc:{$gte:90}}).pretty()
 ```
 
-```python
+```
 #An example where you would want to use the "and" logical query operator
 db.moves.find({$and:[{metacritic:{$ne: null}},{metacritic"{$exists:true}}]}).pretty()
 ```
@@ -217,9 +221,9 @@ db.moves.find({"awards.text":{$regex: /^Won\s.*/}}).pretty()
 - Note, the // delimit the regular expression, the ^ means start at the beginning of whatever value we're matching against and match exactly a capital W, lowercase o, lowercase n. The * means to match any character any number of times and \s is the space character. So basically what this query is saying is give me all documents where the awards.text field begins with the word Won. 
 
 ###### Array Operators:
--$all : matches arrays that contain ALL elements specified in the query 
--$elemMatch : selects documents if element in the array field matches all the specified $elemMatch conditions
--$size : selects documents if the array field is a specified size
+- $all : matches arrays that contain ALL elements specified in the query 
+- $elemMatch : selects documents if element in the array field matches all the specified $elemMatch conditions
+- $size : selects documents if the array field is a specified size
 
 - In this example, the genres is added to the documents in the movies collection to illustrate using array operators.
 
@@ -236,7 +240,7 @@ db.moves.find({"awards.text":{$regex: /^Won\s.*/}}).pretty()
 db.moves.find({genres: {$all: ["Comedy","Crime","Data"]}}).pretty()
 ```
 
-```python
+``` 
 #Using $size to match all documents based on the length of an array
 #Query: find all movies filmed in the country of origin (i.e. filmed in one country)
 db.moves.find({countries: {$size: 1}}).pretty()
