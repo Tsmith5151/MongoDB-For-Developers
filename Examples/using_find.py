@@ -1,8 +1,7 @@
-#api.mongodb.org
+#Examples of using find to query documents in a collection
 import pymongo
 import sys #For the Exception handle
 import datetime
-
 
 try:
 	# Establish a connection to the database:

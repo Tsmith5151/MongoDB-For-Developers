@@ -1,12 +1,18 @@
+#Examples of replacing and deleting documents
 import pymongo
 import sys
 import datetime
 
 try:
-	connection = pymongo.MongoClient("mongodb://localhost")
+	# Establish a connection to the database:
+	connection = pymongo.MongoClient("mongodb://localhost") # running server on localhost
+	#Get handle to the school database
+	db = connection.school #connection to school db
+	scores = db.scores #scores collections
+	print "Successfully connected to MongoDB..."
 
 except Exception as e:
-	print "Unexpected Error: ", type(e), e
+	print "Did not connect to the MongoDB...", type(e), e
 
 def remove_review_dates():
 	db = connection.school

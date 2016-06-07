@@ -1,4 +1,4 @@
-// Script to generate date for mongodb
+// Java script to generate random data for students to import MongoDB
 use school
 db.scores.drop();
 var types = ["quiz","homework","exam"]
