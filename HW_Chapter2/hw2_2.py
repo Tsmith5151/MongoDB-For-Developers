@@ -14,26 +14,36 @@ try:
 
 except Exception as e: #raise error if cannot connect to db
 	print "Unexpected Error: ", type(e), e
-def question_2():
-	#First task is to find which student has the highest average in the class
+
+#First task is to find which student has the highest average in the class
+db = connection.students
+grades = db.grades
+
+def remove_score(_id):
 	db = connection.students
 	grades = db.grades
-	
+	try: 
+		doc = grades.find_one({'_id':_id})
+		print "Removing score ", doc['score'], "for student ", doc['student_id']
+		grades.remove({'_id':'id'})
+	except Exception as e:
+		print "Unexpected Error: ", type(e), e
+
+def remove_lowest():	
 	try:
 		doc = grades.find({'type':'homework'}).sort([('student_id',pymongo.ASCENDING),('score',pymongo.ASCENDING)])
 
 	except Exception as e:
 		print "Unexpected Error: ", type(e), e
 
-	student_id = None
+	student_id = -1
 
 	print "***** Deleting Minimum Score *****"
 	for item in doc:
 		try:
-			if item['student_id'] != student_id:
-				student_id = item['student_id']
-				print "Student: %s -- Score: %s" % (student_id, item['score'])
-				grades.remove({'_id': item['_id']})
+			if item['student_id'] != student_id: #it's a new id
+				remove_score(item['_id'])
+			student_id = item['student_id'] #updates student id
 		except Exception as e:
 			print "Unexpected Error: ", type(e), e
 
@@ -41,12 +51,12 @@ def question_2():
 	of the student with the highest average in the class with following query that 
 	uses the aggregation framework.'''
 
-	# "mongo shell:" - > db.grades.aggregate({'$group':{'_id':'$student_id','average':{'$avg':'$score'}}},{'$sort':{'average':-1}})
+	# "mongo shell:" - > db.students.aggregate({'$unwind':'$scores'},{'$group':{'_id':'$_id', 'average':{$avg:'$scores.score'}}}, {'$sort':{'average':-1}}, {'$limit':1})
 
 	# Answer = student_id = 54
 
 def run():
-	question_2()
+	remove_lowest()
 
 if __name__ == "__main__":
 	run()
