@@ -239,7 +239,7 @@ The blog has been enhanced so that it can also display the top 10 most recent po
 
 To figure out what queries you need to optimize, you can read the blog.py code and see what it does to display those pages. Isolate those queries and use explain to explore. Once you have added the indexes to make those pages fast run the following.
 
-```python validate.py``
+`python validate.py`
 
 #### Question 4.4
 In this problem you will analyze a profile log taken from a different mongoDB instance and you will import it into a collection named sysprofile. To start, please download sysprofile.json from Download Handout link and import it with the following command:
