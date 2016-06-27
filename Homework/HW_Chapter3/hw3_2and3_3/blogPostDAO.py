@@ -1,6 +1,5 @@
 __author__ = 'aje'
 
-
 #
 # Copyright (c) 2008 - 2013 10gen, Inc. <http://10gen.com>
 #
@@ -53,8 +52,9 @@ class BlogPostDAO:
 
         # now insert the post
         try:
-            # XXX HW 3.2 Work Here to insert the post
-            print "Inserting the post"
+            ############ HW 3.2 Work Here to insert the post############
+            self.posts.insert(post)
+            print "Inserting the post" #Inserting the post (line 45)
         except:
             print "Error inserting post"
             print "Unexpected error:", sys.exc_info()[0]
@@ -66,8 +66,8 @@ class BlogPostDAO:
 
         cursor = iter(())  # Using an empty itable for a placeholder so blog compiles before you make your changes
 
-        # XXX HW 3.2 Work here to get the posts
-
+        ############ HW 3.2 To get the blog post ############
+        cursor = self.posts.find().sort('date',direction=1).limit(num_posts)
         l = []
 
         for post in cursor:
@@ -89,7 +89,9 @@ class BlogPostDAO:
     def get_post_by_permalink(self, permalink):
 
         post = None
-        # XXX 3.2 Work here to retrieve the specified post
+        ############ HW 3.2 To retrieve the specified post ############
+
+        post = self.posts.find_one({'permalink':permalink})
 
         if post is not None:
             # fix up date
@@ -106,9 +108,9 @@ class BlogPostDAO:
             comment['email'] = email
 
         try:
-            # XXX HW 3.3 Work here to add the comment to the designated post. When done, modify the line below to return the number of documents updated by your modification, rather than just -1.
-
-            return -1  # Change this to return the number of documents updated by the code for HW 3.3
+            ############ HW 3.3 Work here to add the comment to the designated post. When done, modify the line below to return the number of documents updated by your modification, rather than just -1. ############
+            last_error = self.posts.update({'permalink':permalink},{'$push':{'comments':comment}},upsert=False,manipulate=False)
+            return last_error['a']  # Change this to return the number of documents updated by the code for HW 3.3
 
         except:
             print "Could not update the collection, error"
