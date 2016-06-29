@@ -262,7 +262,7 @@ db.moves.find({boxOffice: {$elemMatch: { country: "USA", revenue: {$gte:15}}}}).
 ###### Aggregation:
 - Aggregation pipeline operations have a collection of operators available to define and manipulate documents in pipeline stages. [documents](https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/) such as `Projects` (reshapes the documents), `unmatch` (filtering step), and `sort`(sorts documents in a particular order). Also, aggregation is `unwind`, which deconstructs an array field from the input documents to output a document for each element. Each output document is the input document with the value of the array field replaced by the element. So for instance, if we had an array of tags = ["blue","red","white"] and we "unwind" the tags, then we will have three different documents now (expands 1:n) --> tags:blue, tags:red, tags:white. 
 
-*Group*:
+*$Group*
 - The complete dataset for this example can be found in the Dataset directory under the filename `population.json`. Below shows a snipets of a document located in the `zips` collection. Keep in mind there are several aggregation expressions in the group stage such as $sum, $avg, $min, $max, $push, $addToSet, $first, $last. The following section walks through several queries using the aggregation group expressions in the Mongo shell. 
 
 ```javascript
