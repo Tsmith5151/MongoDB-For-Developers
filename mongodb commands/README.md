@@ -267,7 +267,7 @@ db.moves.find({boxOffice: {$elemMatch: { country: "USA", revenue: {$gte:15}}}}).
 
 ```javascript
 db.products.aggregate([
-	{'$group:{
+	{'$group':{
 		_id:{
 			'manufacturer': '$manufacture',
 			'category': '$category'
