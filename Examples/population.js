@@ -2,7 +2,7 @@
 
 /* Write an aggregation expression to calculate the average population 
 of a zip code (postal code) by state. As before, the postal code is in 
-the _id field and is unique. The collection is assumped to be called "zips" 
+the _id field and is considered unique. The collection is assumped to be called "zips" 
 and you should name the key in the result set "average_pop" */
 
 //Sum
