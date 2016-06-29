@@ -1,3 +1,5 @@
+//Aggregation MongoDB Query Examples (Mongo Shell)
+
 /* Write an aggregation expression to calculate the average population 
 of a zip code (postal code) by state. As before, the postal code is in 
 the _id field and is unique. The collection is assumped to be called "zips" 
