@@ -262,7 +262,7 @@ db.moves.find({boxOffice: {$elemMatch: { country: "USA", revenue: {$gte:15}}}}).
 ###### Aggregation:
 - Aggregation pipeline operations have a collection of operators available to define and manipulate documents in pipeline stages. [documents](https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/) such as `Projects` (reshapes the documents), `unmatch` (filtering step), and `sort`(sorts documents in a particular order). Also, aggregation is `unwind`, which deconstructs an array field from the input documents to output a document for each element. Each output document is the input document with the value of the array field replaced by the element. So for instance, if we had an array of tags = ["blue","red","white"] and we "unwind" the tags, then we will have three different documents now (expands 1:n) --> tags:blue, tags:red, tags:white. 
 
-######### Group:
+*Group*:
 - The complete dataset for this example can be found in the Dataset directory under the filename `population.json`. Below shows a snipets of a document located in the `zips` collection. Keep in mind there are several aggregation expressions in the group stage such as $sum, $avg, $min, $max, $push, $addToSet, $first, $last. The following section walks through several queries using the aggregation group expressions in the Mongo shell. 
 
 ```javascript
@@ -276,4 +276,56 @@ db.moves.find({boxOffice: {$elemMatch: { country: "USA", revenue: {$gte:15}}}}).
     "state" : "AL",
     "_id" : "35045"
 }
+```
+
+- Write an aggregation expression to calculate the total population of a zip code (postal code) by state. As before, the postal code is in  the `_id` field and is unique. 
+
+```javascript
+db.zips.aggregate([
+	{'$group':
+		{_id:'$state',
+		'population':{$sum:'$pop'}
+		}
+	}
+])
+```
+- Write an aggregation expression to calculate the average population of a zip code (postal code) by state. As before, the postal code is in  the `_id` field and is unique. 
+
+```javascript
+db.zips.aggregate([
+	'$group':
+		{_id:{
+			'state':'$state'
+			},
+		'population':{$avg:'$pop'}
+	}
+])
+```
+
+- Write an aggregation query that will return the postal codes that cover each city.
+
+```javascript
+db.zips.aggregate([
+	{'$group':
+		{_id:{
+			'city':'$city'
+			},
+		'zip_codes':{$addToSet:'$_id'}
+		}
+	}
+])
+```
+
+- Write an aggregation query that will return the population of the postal code in each state with the highest population.
+
+```javascript
+db.zips.aggregate([
+	{'$group':
+		{_id:{
+			'state':'$state'
+			},
+		'max_population':{$max:'$pop'}
+		}
+	}
+])
 ```
